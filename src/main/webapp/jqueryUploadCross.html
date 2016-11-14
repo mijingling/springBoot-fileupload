@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>jQuery File Upload Example</title>
+	<script src="util/jquery.1.9.1.min.js"></script>
+	<script src="plugins/js/vendor/jquery.ui.widget.js"></script>
+	<script src="plugins/js/jquery.iframe-transport.js"></script>
+	<script src="plugins/js/jquery.fileupload.js"></script>
+	<script>
+	$(function () {
+		//初始化默认参数
+		$("#imgShow").attr("src","util/none.png");
+		$("#resultCode").html("尚未上传");
+		$("#imgLabel").html("none");
+		//上传
+	    $('#fileupload').fileupload({
+	    	xhrFields: {
+	            crossDomain: true,
+	    		withCredentials: true
+	        },
+	    	url: "http://localhost:8099/jquery/cross/xmlupload",
+	    	multiple: false,
+	    	type: "POST",
+	        dataType: 'json',
+	        done: function (e, data) {
+	        	if(data.result.code=="success"){
+	        		var fullImgPath="http://localhost:8099/"+data.result.imgPath;
+	    			$("#imgShow").attr("src",fullImgPath);
+	    			$("#imgHref").attr("href",fullImgPath);
+	    			$("#imgLabel").html(fullImgPath);
+	    			$("#resultCode").html(data.result.code);
+	        	}
+	        }
+	    });
+	});
+	</script>
+</head>
+<body>
+	<div style="width:500px;margin:auto;padding-top:50px;text-align:center">
+		<b>springBoot图片上传Demo-<span style="color:blue">jQuery无刷新上传(跨域，XMLHTTPRequest方式)</span></b><br/>
+		<span style="color:red">本地浏览器直接打开该html,制造跨域环境</span>
+	</div>
+	<hr/>
+	<div style="width:400px;margin:auto">
+		<input id="fileupload" type="file" name="imgUpload" ><br/><br/>
+		<b>上传结果编码：</b><label id="resultCode"></label><br/><br/>
+	</div>
+	<hr/>
+	<div style="text-align:center">
+		<b>图片地址：</b><label id="imgLabel"></label><br/><br/>
+		<a id="imgHref" href="#" target="_blank"><img id="imgShow"/></a>
+	</div>
+</body> 
+</html>
