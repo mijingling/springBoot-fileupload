@@ -20,7 +20,9 @@ import com.alibaba.fastjson.JSON;
 
 @RestController
 public class UploadController {
-
+	
+	private static String IMG_BASE64="";
+	
 	/**
 	 * jquery图片上传-非跨域
 	 */
@@ -40,10 +42,25 @@ public class UploadController {
 			System.out.println("接收图片出错");
 			return JSON.toJSONString(rsMap);
 		}
+		//获取base64图片编码
+		IMG_BASE64 = ImgBase64.getImgStr(file);
+		System.out.println(IMG_BASE64);
 		//组装上传结果
 		rsMap.put("code", "success");
 		rsMap.put("imgPath", objectkey);
 		return JSON.toJSONString(rsMap);
+	}
+	/**
+	 * jquery图片下载
+	 */
+	@RequestMapping(value = "/jquery/download", method = RequestMethod.GET)
+	public void downloadImg(HttpServletResponse response) {
+		try {
+			ImgBase64.generateImage(IMG_BASE64, response.getOutputStream());
+			System.out.println("下载base64图片");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * jquery图片上传-跨域-XMLHttpRequest提交
@@ -100,5 +117,4 @@ public class UploadController {
 		}
 		return null;
 	}
-
 }
