@@ -1,1 +1,34 @@
-/target/
+# maven ignore
+target/
+output/
+# *.jar
+*.war
+*.tar
+*.tar.gz
+tree.txt
+
+# eclipse ignore
+.settings/
+.project
+.classpath
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+node_modules
+build
+
+# system ignore
+.DS_Store
+Thumbs.db
+doc
+*.cld
